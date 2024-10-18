@@ -1,0 +1,37 @@
+{
+  "name": "sirbook-backend",
+  "version": "1.0.0",
+  "description": "Backend server for the SirBook social media platform.",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "jest"
+  },
+  "keywords": [
+    "social-media",
+    "backend",
+    "nodejs",
+    "express"
+  ],
+  "author": "Zyad Hany",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.3",
+    "mongoose": "^6.3.3",
+    "jsonwebtoken": "^8.5.1",
+    "dotenv": "^10.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15",
+    "jest": "^27.0.6",
+    "@babel/core": "^7.16.5",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/register": "^7.16.5"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  }
+}
