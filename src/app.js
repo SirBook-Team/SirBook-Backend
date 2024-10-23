@@ -1,15 +1,19 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import router from './routes/rounterConfig';
+import cokkieParser from 'cookie-parser';
+import { authMiddleware } from './middleware/AuthMiddleware';
 
 
-// Load environment variables
 dotenv.config();
-
 const app = express(); 
 const PORT = process.env.PORT || 3000;
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cokkieParser());
+app.use(authMiddleware);
+
 app.use('/api', router);
 
 app.get('/', (req, res) => {

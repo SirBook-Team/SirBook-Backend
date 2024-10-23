@@ -1,8 +1,15 @@
-import User from './src/models/uss.js';
-
-const user = new User('user', 'password1@A', 'email@gmail.com');
-
-console.log(user);
+import e from 'express';
+import User from './src/models/User.js';
 
 
-console.log(11);
+async function main() {
+    const user = await User.createObject({username: 'John', password: 'Password1!', email: 'email@gma.com'});
+    user.setUserName('Amr');
+    user.update();
+    user.delete();
+    console.log(user);
+    //user.setUserName('Amr');
+    //user.update();
+}
+
+main();
