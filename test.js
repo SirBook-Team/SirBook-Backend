@@ -1,15 +1,21 @@
-import e from 'express';
-import User from './src/models/User.js';
+// server.js
+const express = require('express');
+const path = require('path');
+const app = express();
+const port = 3000;
 
 
-async function main() {
-    const user = await User.createObject({username: 'John', password: 'Password1!', email: 'email@gma.com'});
-    user.setUserName('Amr');
-    user.update();
-    user.delete();
-    console.log(user);
-    //user.setUserName('Amr');
-    //user.update();
-}
+// Route to serve images dynamically
+app.get('/image/:imagename', (req, res) => {
+  const imageName = req.params.imagename;
+  const imagePath = path.join(__dirname, 'public', imageName);
+  res.sendFile(imagePath, (err) => {
+    if (err) {
+      res.status(404).send('Image not found');
+    }
+  });
+});
 
-main();
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
+});
