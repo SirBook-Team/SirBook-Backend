@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
+import e from 'express';
 
 // allower routes with no auth
 const allowedRoutes = [
@@ -7,10 +8,10 @@ const allowedRoutes = [
     '/api/auth/register'
 ];
 
-export const authMiddleware = (req, res, next) => {
+export const authMiddleware = async (req, res, next) => {
     const token = req.cookies.token;
     // ensure route is not in allowed routes
-    if (allowedRoutes.includes(req.path) || 1) {
+    if (allowedRoutes.includes(req.path)) {
         return next();
     }
     
@@ -18,16 +19,21 @@ export const authMiddleware = (req, res, next) => {
         return res.status(401).send('No token provided').end();
     }
     
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(401).send(err).end();
-        }
-        const email = decoded.email;
-        const user = User.findOne({ email });
-        if (!user) {
-            return res.status(401).send('User not found').end();
-        }
-        req.user = user;
-        next();
-    });
+    try {
+        await jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+            if (err) {
+                return res.status(401).send(err).end();
+            }
+            const email = decoded.email;
+            const user = await User.findOne({ email });
+            
+            if (!user) {
+                return res.status(401).send('User not found').end();
+            }
+            req.user = user;
+            next();
+        });
+    } catch (error) {
+        return res.status (401).send(error).end();
+    }
 };
