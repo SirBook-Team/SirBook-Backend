@@ -9,11 +9,13 @@ dotenv.config();
 const app = express(); 
 const PORT = process.env.PORT || 3000;
 
+// Error-handling middleware
+
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cokkieParser());
 app.use(authMiddleware);
-
 app.use('/api', router);
 
 app.get('/', (req, res) => {

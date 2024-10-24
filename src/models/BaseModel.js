@@ -10,7 +10,7 @@ const BaseModel = class {
         return true;
     }
 
-    static async construct(params, validate = true) {        
+    static async construct(params, validate = true) {       
         const obj = new this();
         Object.assign(obj, params);
         
@@ -78,7 +78,7 @@ const BaseModel = class {
             if (response.data.length === 0) {
                 return null;
             }
-            const obj = await this.construct(response.data[0]);
+            const obj = await this.construct(response.data[0], false);
             return obj;
         } catch (error) {
             throw new Error(`Error getting ${objName}: ${error.message}`);
@@ -90,6 +90,7 @@ const BaseModel = class {
         
         try {
             const response = await axios.post(`${PYTHON_SERVER_URL}/${objName}`, this, { timeout: 5000 });
+            
             if (response.status !== 200) {
                 throw new Error(`Error creating ${objName}: ${response.data}`);
             }

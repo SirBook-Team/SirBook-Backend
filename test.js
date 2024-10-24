@@ -1,21 +1,23 @@
-// server.js
 const express = require('express');
-const path = require('path');
 const app = express();
-const port = 3000;
-
-
-// Route to serve images dynamically
-app.get('/image/:imagename', (req, res) => {
-  const imageName = req.params.imagename;
-  const imagePath = path.join(__dirname, 'public', imageName);
-  res.sendFile(imagePath, (err) => {
-    if (err) {
-      res.status(404).send('Image not found');
-    }
-  });
+// Error-handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Internal Server Error');
 });
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+// Example route that throws an error
+app.get('/', (req, res) => {
+  throw new Error('Something went wrong!');
+});
+
+app.get('/user', (req, res) => {
+  res.send('Hello User!');
+});
+
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

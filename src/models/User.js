@@ -5,8 +5,11 @@ import BaseModel from './BaseModel';
 
 
 class User extends BaseModel {
+    static name = 'users';
+
     async validate() {
         super.validate();
+
         if (!this.email) {
             throw new Error('Email is required');
         }

@@ -14,7 +14,7 @@ class AuthController {
         };
         
         const user = await User.findOne(userData)
-
+        
         if (!user) {
             return res.status(401).send('Invalid email or password').end();
         }
@@ -39,7 +39,7 @@ class AuthController {
         if (req.body.password !== req.body.confirmPassword) {
             throw new Error('passwords do not match');
         }
-
+        
         try {
             const user = await User.createObject(userData);
             if (!user) {
