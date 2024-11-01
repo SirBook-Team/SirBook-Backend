@@ -40,6 +40,11 @@ class User extends BaseModel {
         return true;
     }
 
+    async retrive() {
+        this.profile = `https://ideal-computing-machine-wqqvr4qg96ghvgp7-4000.app.github.dev/api/files/image/${this.profile}`;
+        delete this.hashedPassword;
+    }
+
     static async createObject(params) {
         const user = await this.findOne({email: params.email});
         

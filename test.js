@@ -1,23 +1,20 @@
-const express = require('express');
-const app = express();
-// Error-handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Internal Server Error');
-});
+import User from "./src/models/User";
+import Post from "./src/models/Post";
+import Comment from "./src/models/Comment";
+import { get } from "mongoose";
 
-// Example route that throws an error
-app.get('/', (req, res) => {
-  throw new Error('Something went wrong!');
-});
+async function main() {
+  const posts = await Post.findAll();
+  const post = posts[0];
+  const id = post.id;
+  const getpost = await Post.getById(id);
+  console.log(posts);
+}
 
-app.get('/user', (req, res) => {
-  res.send('Hello User!');
-});
-
-
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+const ma = main();
+ma.then(() => {
+    console.log('done');
+}
+).catch((error) => {
+    console.log(error);
 });

@@ -34,6 +34,7 @@ class AuthController {
             gender: req.body.gender,
             dateOfBirth: req.body.dateOfBirth,
             phoneNumber: req.body.phoneNumber,
+            profile: "Null"
         };
 
         if (req.body.password !== req.body.confirmPassword) {

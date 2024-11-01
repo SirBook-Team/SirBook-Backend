@@ -3,6 +3,8 @@ import path from 'path';
 
 const fileRouter = express.Router();
 
+
+
 fileRouter.get('/image/:imagename', (req, res) => {
     const imageName = req.params.imagename;
     const imagePath = path.join(__dirname, '../', 'public', imageName);
@@ -13,5 +15,6 @@ fileRouter.get('/image/:imagename', (req, res) => {
     }
     });
   });
+
 
 export default fileRouter;

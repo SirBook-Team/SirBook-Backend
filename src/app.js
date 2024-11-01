@@ -3,15 +3,17 @@ import dotenv from 'dotenv';
 import router from './routes/rounterConfig';
 import cokkieParser from 'cookie-parser';
 import { authMiddleware } from './middleware/AuthMiddleware';
+import cors from 'cors';
 
 
 dotenv.config();
 const app = express(); 
 const PORT = process.env.PORT || 3000;
 
+
 // Error-handling middleware
 
-
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cokkieParser());

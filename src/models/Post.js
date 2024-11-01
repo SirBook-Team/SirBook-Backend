@@ -3,14 +3,18 @@ import BaseModel from './BaseModel';
 import User from './User';
 
 class Post extends BaseModel {
-    static async construct(data, validate = true) {
-        const post = super.construct(data, validate);
-        const owner = await User.findOne({ email: post.owner });
-        if (!owner) {
-            throw new Error('Owner not found');
+    static name = 'posts';
+    async retrive() {
+        this.owner = await User.findOne({ email: this.owner });
+        await this.owner.retrive();
+        this.comments = [];
+        for (const id of this.comments_ids) {
+            const comment = await Comment.findOne({ _id: id });
+            await comment.retrive(); 
+            this.comments.push(comment);
         }
-        post.owner = owner;
-        return post;
+        this.image = `https://ideal-computing-machine-wqqvr4qg96ghvgp7-4000.app.github.dev/api/files/image/${this.image}`;
+        delete this.comments_ids;
     }
 }
 

@@ -52,6 +52,35 @@ const BaseModel = class {
         }
     }
 
+    static async getIdDB(data) {
+        const objName = this.name.toLowerCase();
+
+        try {
+            const response = await axios.get(`${PYTHON_SERVER_URL}/${objName}/${data.id}`, { timeout: 5000 });
+            if (response.status !== 200) {
+                throw new Error(`Error getting ${objName}: ${response.data}`);
+            }
+            return response;
+        } catch (error) {
+            throw new Error(`Error getting ${objName}: ${error.message}`);
+        }
+    }
+
+    static async getById(id) {
+        const objName = this.constructor.name.toLowerCase();
+        
+        try {
+            const response = await this.getIdDB({ id });
+            if (response.data.length === 0) {
+                return null;
+            }
+            const obj = await this.construct(response.data, false);
+            return obj;
+        } catch (error) {
+            throw new Error(`Error getting ${objName}: ${error.message}`);
+        }
+    }
+
     static async findAll(data) {
         const list = [];
         const objName = this.constructor.name.toLowerCase();
@@ -105,6 +134,10 @@ const BaseModel = class {
         
         try {
             const response = await this.createDb();
+            if (response.status !== 200) {
+                throw new Error(`Error creating ${objName}`);
+            }
+            
             return response;
         } catch (error) {
             throw new Error(`Error creating ${objName}: ${error.message}`);
@@ -117,7 +150,9 @@ const BaseModel = class {
         
         try {
             const response = await obj.create();
-            const newObj = this.construct(response.data, false);
+            console.log(response.data);
+            console.log("dsfgsdfgsdfg");
+            const newObj = await this.construct(response.data, false);
             return newObj;
         } catch (error) {
             throw new Error(`Error creating ${objName}: ${error.message}`);
