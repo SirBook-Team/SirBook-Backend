@@ -19,7 +19,7 @@ class AuthController {
             return res.status(401).send('Invalid email or password').end();
         }
 
-        const token = jwt.sign({ email: userData.email }, process.env.JWT_SECRET, { expiresIn: '1hrs' });
+        const token = jwt.sign({ email: userData.email }, process.env.JWT_SECRET, { expiresIn: '100hrs' });
         res.cookie('token', token, { httpOnly: true });
         // sent token and user data at json and return status 200
         return res.status(200).json({ token, user }).end();

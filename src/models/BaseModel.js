@@ -150,9 +150,8 @@ const BaseModel = class {
         
         try {
             const response = await obj.create();
-            console.log(response.data);
-            console.log("dsfgsdfgsdfg");
             const newObj = await this.construct(response.data, false);
+            console.log(newObj, "123123");
             return newObj;
         } catch (error) {
             throw new Error(`Error creating ${objName}: ${error.message}`);

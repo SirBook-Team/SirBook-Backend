@@ -30,7 +30,6 @@ class PostController {
     async deletePost(req, res) {
         const id = req.params.id;
         const post = await Post.getById(id);
-        console.log(post);
         if (!post) {
             throw new Error('Post not found');
         }
@@ -51,7 +50,7 @@ class PostController {
 
     async getOwn(req, res) {
         const email = req.params.email;
-        const posts = await Post.find({ owner: email });
+        const posts = await Post.findAll({ owner: email });
         for (const post of posts) {
             await post.retrive();
         }
@@ -59,12 +58,27 @@ class PostController {
     }
 
     async react(req, res) {
+        const id = req.params.id;
+        const email = req.user.email;
+        const post = await Post.getById(id);
+        if (!post) {
+            throw new Error('Post not found');
+        }
+        // remove reaction if already reacted by user
+        if (post.profiles_reacted_ids.includes(email)) {
+            post.profiles_reacted_ids = post.profiles_reacted_ids.filter(e => e !== email);
+        }
+        else {
+            post.profiles_reacted_ids.push(email);
+        }
+            
+        await post.update();
         return res.status(200).send('Reacted');
     }
 
     async comment(req, res) {
         const id = req.params.id;
-        const post = await Post.findOne({ _id: id });
+        const post = await Post.getById(id);
         if (!post) {
             throw new Error('Post not found');
         }
@@ -74,14 +88,14 @@ class PostController {
             post_id: id,
             timestamp: new Date().toISOString()
         });
-        post.comments_ids.push(comment._id);
+        post.comments_ids.push(comment.id);
         await post.update();
         res.status(200).json(comment);
     }
 
     async deleteComment(req, res) {
         const id = req.params.id;
-        const comment = await Comment.findOne({ _id: id });
+        const comment = await Comment.getById(id);
         if (!comment) {
             throw new Error('Comment not found');
         }

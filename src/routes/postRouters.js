@@ -29,6 +29,7 @@ postRouter.post('/delete/:id', async (req, res) => {
 });
 
 postRouter.get('/:email', async (req, res) => {
+    console.log('Getting own posts');
     try {
         await postController.getOwn(req, res);
     } catch (error) {
@@ -45,6 +46,7 @@ postRouter.post('/react/:id', async (req, res) => {
 });
 
 postRouter.post('/comment/:id', async (req, res) => {
+    console.log('Commenting');
     try {
         await postController.comment(req, res);
     } catch (error) {
