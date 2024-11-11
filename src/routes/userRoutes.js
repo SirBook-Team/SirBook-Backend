@@ -28,7 +28,6 @@ userRouter.post('/', async (req, res) => {
 userRouter.get('/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        console.log(id);
         const user = await User.getById(id);
         await user.retrive();
         if (!user) {
