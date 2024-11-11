@@ -13,7 +13,7 @@ const allowedRoutes = [
 
 export const authMiddleware = async (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1];
-    //const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVsZ2VuZHlAZ21haWwuY29tIiwiaWF0IjoxNzMwNTI0MTg5LCJleHAiOjE3MzA4ODQxODl9.hTa2jM3mC0STn8cUKK3_r1Z8sed9_Vs4hu5uOeNHLBM";
+
     // ensure route is not in allowed routes
     const isAllowedRoute = allowedRoutes.some(route => {
         const regex = new RegExp(`^${route.replace(':imagename', '[^/]+')}$`);

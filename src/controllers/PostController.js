@@ -17,7 +17,9 @@ class PostController {
             profiles_reacted_ids: [],
             timestamp: new Date().toISOString()
         }
-
+        if (!req.image) {
+            throw new Error('Image not found');
+        }
         const post = await Post.createObject(data);
         if (!post) {
             throw new Error('Post not created');

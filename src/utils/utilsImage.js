@@ -20,22 +20,10 @@ storage,
 fileFilter: (req, file, cb) => {
     const ext = path.extname(file.originalname);
     if (ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png') {
-    return cb(new Error('Only images are allowed'));
+        console.log('Only images are allowed');
+        return cb(null, false);
     }
     cb(null, true);
 }
 });
 
-export const saveImage = async (image) => {
-    if (!image) {
-        return new Error('No image provided');
-    }
-
-    try {
-        // check if calid image
-
-
-    } catch (error) {
-        return new Error(error);
-    }
-}
