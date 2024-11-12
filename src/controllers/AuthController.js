@@ -12,16 +12,15 @@ class AuthController {
             email: req.body.email,
             hashedPassword: await hashPassword(req.body.password)
         };
-        
+
         const user = await User.findOne(userData)
         
         if (!user) {
             return res.status(401).send('Invalid email or password').end();
         }
 
-        const token = jwt.sign({ email: userData.email }, process.env.JWT_SECRET, { expiresIn: '100hrs' });
+        const token = jwt.sign({ email: userData.email }, process.env.JWT_SECRET, { expiresIn: '2hrs' });
         res.cookie('token', token, { httpOnly: true });
-        // sent token and user data at json and return status 200
         return res.status(200).json({ token, user }).end();
     }
 
