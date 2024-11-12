@@ -87,12 +87,10 @@ const BaseModel = class {
         
         try {
             const response = await this.get(data);
-
             await response.data.forEach(async (item) => {
-                const obj = await this.construct(item);
+                const obj = await this.construct(item, false);
                 list.push(obj);
             });
-            
             return list;
         } catch (error) {
             throw new Error(`Error getting ${objName}: ${error.message}`);
