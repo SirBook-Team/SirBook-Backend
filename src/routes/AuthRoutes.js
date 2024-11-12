@@ -3,12 +3,9 @@ import authController from '../controllers/AuthController.js';
 
 const authRouter = express.Router();
 
-authRouter.get('/', (req, res) => {
+authRouter.get('/', async (req, res) => {
     const user = req.user;
-    delete user.hashedPassword;
-    //user.profile = 'bb0a0f9b-d441-46ac-a04c-14bf627670cb.jpg';
-    const profile = `https://ideal-computing-machine-wqqvr4qg96ghvgp7-4000.app.github.dev/api/files/image/${user.profile}`;
-    user.profile = profile;
+    user.retrive();
     return res.status(200).json(user).end();
 });
 
