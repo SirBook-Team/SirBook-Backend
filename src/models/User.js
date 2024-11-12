@@ -41,8 +41,13 @@ class User extends BaseModel {
     }
 
     async retrive() {
-        this.profile = `https://ideal-computing-machine-wqqvr4qg96ghvgp7-4000.app.github.dev/api/files/image/${this.profile}`;
+        if (this.profile && this.profile !== 'Null') {
+            this.profile = `https://ideal-computing-machine-wqqvr4qg96ghvgp7-4000.app.github.dev/api/files/image/${this.profile}`;
+        } else {
+            this.profile = 'https://ideal-computing-machine-wqqvr4qg96ghvgp7-4000.app.github.dev/api/files/image/default.jpg';
+        }
         delete this.hashedPassword;
+            
     }
 
     static async createObject(params) {
