@@ -10,18 +10,27 @@ userRouter.get('/', (req, res) => {
 
 userRouter.post('/', async (req, res) => {
     const text_search = req.body.text_search;
+  
     try {
-        const allUsers = await User.getAll();
+        const allUsers = await User.findAll();
         const users = [];
         for (const user of allUsers) {
+            if (!text_search || text_search === '') { 
+                users.push(user);
+                continue;  
+            }
+            
             const name = `${user.firstname} ${user.lastname}`;
-            if (name.includes(text_search)) {
+            if (name.toLowerCase().includes(text_search.toLowerCase())) {
                 users.push(user);
             }
         } 
+        for (const user of users) {
+            await user.retrive();
+        }
         res.status(200).send(users);
     } catch (error) {
-        res.status(400).send
+        res.status(400).send(error);
     }
 });
 
